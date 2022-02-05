@@ -2,32 +2,44 @@ name: Commit visualized google cloud build graph
 description: Create a graph of google cloud build steps by gcb-visualizer and commit to its repository
 inputs:
   gcb-visualizer-version:
-    description: "The version of https://github.com/RyanSiu1995/gcb-visualizer, starts with 'v'"
+    description: 'The version of https://github.com/RyanSiu1995/gcb-visualizer, starts with "v"'
     required: false
     default: v1.0.1
   search-directories:
-    description: Comma separated list of dictionaries that cloudbuild.yaml files are searched
+    description: 'Comma separated list of dictionaries that cloudbuild.yaml files are searched'
     required: false
     default: .
   filename-regex:
-    description: "Custom regex for the 'cloudbuild.yaml' file name"
+    description: 'Custom regex for the "cloudbuild.yaml" file name'
     required: false
     default: cloudbuild.yaml
+  output-directory-relative-path:
+    description: 'Output directory of the output visualized image files. Defined this via a relative path from the path of the directory of the cloudbuild.yaml'
+    required: false
+    default: images
+  output-filetype: 
+    description: 'The file extension of the output visualized image files. See https://github.com/RyanSiu1995/gcb-visualizer#current-features to check available options'
+    required: false
+    default: png
 
 runs:
   using: "composite"
   steps:
-    - name: Install gcb-visualizer
+    - shell: bash
+      name: Install gcb-visualizer
       env:
         GCB_VISUALIZER_VERSION: "${{ inputs.gcb-visualizer-version}}"
       run: |
         set -o errexit
         curl -L "https://github.com/RyanSiu1995/gcb-visualizer/releases/download/${GCB_VISUALIZER_VERSION}/gcb-visualizer.ubuntu.zip" -o /tmp/gcb-visualizer.ubuntu.zip
         unzip /tmp/gcb-visualizer.ubuntu.zip -d /tmp
-    - name: run gcb-visualizer
+    - shell: bash
+      name: run gcb-visualizer
       env:
-        SEARCH_DIRECTORIES: "${{ env.search-directories }}"
-        FILENAME_REGEX: "${{ env.filename-regex }}"
+        SEARCH_DIRECTORIES: "${{ inputs.search-directories }}"
+        FILENAME_REGEX: "${{ inputs.filename-regex }}"
+        OUTPUT_DIRECTORY_RELATIVE_PATH: "${{ inputs.output-directory-relative-path }}"
+        OUTPUT_FILETYPE: "${{ inputs.output-filetype }}"
       run: |
         set -o errexit
         dirs=(${SEARCH_DIRECTORIES//,/ })
@@ -35,8 +47,8 @@ runs:
         do
           for srcpath in $(find "$dir" -name "$FILENAME_REGEX")
           do
-            destdir="$(dirname $srcpath)/images"
-            destpath="$destdir/$(basename $srcpath).png"
+            destdir="$(dirname $srcpath)/${OUTPUT_DIRECTORY_RELATIVE_PATH}"
+            destpath="$destdir/$(basename $srcpath).${OUTPUT_FILETYPE}"
             mkdir -p $destdir
             /tmp/gcb-visualizer visualize $srcpath -o $destpath
           done
