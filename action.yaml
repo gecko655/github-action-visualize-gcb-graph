@@ -1,0 +1,43 @@
+name: Commit visualized google cloud build graph
+description: Create a graph of google cloud build steps by gcb-visualizer and commit to its repository
+inputs:
+  gcb-visualizer-version:
+    description: "The version of https://github.com/RyanSiu1995/gcb-visualizer, starts with 'v'"
+    required: false
+    default: v1.0.1
+  search-directories:
+    description: Comma separated list of dictionaries that cloudbuild.yaml files are searched
+    required: false
+    default: .
+  filename-regex:
+    description: "Custom regex for the 'cloudbuild.yaml' file name"
+    required: false
+    default: cloudbuild.yaml
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install gcb-visualizer
+      env:
+        GCB_VISUALIZER_VERSION: "${{ inputs.gcb-visualizer-version}}"
+      run: |
+        set -o errexit
+        curl -L "https://github.com/RyanSiu1995/gcb-visualizer/releases/download/${GCB_VISUALIZER_VERSION}/gcb-visualizer.ubuntu.zip" -o /tmp/gcb-visualizer.ubuntu.zip
+        unzip /tmp/gcb-visualizer.ubuntu.zip -d /tmp
+    - name: run gcb-visualizer
+      env:
+        SEARCH_DIRECTORIES: "${{ env.search-directories }}"
+        FILENAME_REGEX: "${{ env.filename-regex }}"
+      run: |
+        set -o errexit
+        dirs=(${SEARCH_DIRECTORIES//,/ })
+        for dir in ${dirs[@]}
+        do
+          for srcpath in $(find "$dir" -name "$FILENAME_REGEX")
+          do
+            destdir="$(dirname $srcpath)/images"
+            destpath="$destdir/$(basename $srcpath).png"
+            mkdir -p $destdir
+            /tmp/gcb-visualizer visualize $srcpath -o $destpath
+          done
+        done
