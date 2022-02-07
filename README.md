@@ -2,7 +2,7 @@
 
 A github action that creates image files of a graph of cloudbuild.yaml jobs with https://github.com/RyanSiu1995/gcb-visualizer .
 
-The created image files can be used in latter steps of the github action, for example, commit to the repository via https://github.com/EndBug/add-and-commit ,
+The created image files can be used in later steps of the github action, for example, commit to the repository via https://github.com/EndBug/add-and-commit ,
 or store as build artifacts via https://github.com/actions/upload-artifact .
 
 ## Sample usage
@@ -41,6 +41,8 @@ jobs:
           push: true
 ```
 
-## Demo commit
+## Demo action and commit
+
+https://github.com/gecko655/github-action-commit-visualized-gcb-graph/runs/5087550688?check_suite_focus=true
 
 https://github.com/gecko655/github-action-commit-visualized-gcb-graph/commit/5cf81104e3ebb34920fd803671934fba142bcd46
