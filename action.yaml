@@ -9,12 +9,12 @@ inputs:
     description: 'Comma separated list of dictionaries that cloudbuild.yaml files are searched'
     required: false
     default: .
-  filename-regex:
-    description: 'Custom regex for the "cloudbuild.yaml" file name'
+  filename-find-pattern:
+    description: 'Custom pattern for the "cloudbuild.yaml" file name. This value is used as a parameter of `find -name`. See: https://man7.org/linux/man-pages/man1/find.1.html'
     required: false
     default: cloudbuild.yaml
   output-directory-relative-path:
-    description: 'Output directory of the output visualized image files. Defined this via a relative path from the path of the directory of the cloudbuild.yaml'
+    description: 'Output directory of the output visualized image files. This value is used as a relative path from the path of the directory of the cloudbuild.yaml'
     required: false
     default: images
   output-filetype: 
@@ -37,7 +37,7 @@ runs:
       name: run gcb-visualizer
       env:
         SEARCH_DIRECTORIES: "${{ inputs.search-directories }}"
-        FILENAME_REGEX: "${{ inputs.filename-regex }}"
+        FILENAME_FIND_PATTERN: "${{ inputs.filename-find-pattern }}"
         OUTPUT_DIRECTORY_RELATIVE_PATH: "${{ inputs.output-directory-relative-path }}"
         OUTPUT_FILETYPE: "${{ inputs.output-filetype }}"
       run: |
@@ -45,7 +45,7 @@ runs:
         dirs=(${SEARCH_DIRECTORIES//,/ })
         for dir in ${dirs[@]}
         do
-          for srcpath in $(find "$dir" -name "$FILENAME_REGEX")
+          for srcpath in $(find "$dir" -name "$FILENAME_FIND_PATTERN")
           do
             destdir="$(dirname $srcpath)/${OUTPUT_DIRECTORY_RELATIVE_PATH}"
             destpath="$destdir/$(basename $srcpath).${OUTPUT_FILETYPE}"

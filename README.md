@@ -13,7 +13,7 @@ on: push
 
 env:
   SEARCH_DIRECTORIES: sample
-  FILENAME_REGEX: 'cloudbuild.*.yaml'
+  FILENAME_FIND_PATTERN: 'cloudbuild.*.yaml'
 
 jobs:
   format:
@@ -28,7 +28,7 @@ jobs:
         with:
           gcb-visualizer-version: v1.0.1
           search-directories: '${{ env.SEARCH_DIRECTORIES }}'
-          filename-regex: '${{ env.FILENAME_REGEX }}'
+          filename-regex: '${{ env.FILENAME_FIND_PATTERN }}'
           output-directory-relative-path: images
           output-filetype: png
 
