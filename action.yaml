@@ -50,6 +50,7 @@ runs:
             destdir="$(dirname $srcpath)/${OUTPUT_DIRECTORY_RELATIVE_PATH}"
             destpath="$destdir/$(basename $srcpath).${OUTPUT_FILETYPE}"
             mkdir -p $destdir
+            echo "Visualize '$srcpath' as an image '$destpath'" 2>&1
             /tmp/gcb-visualizer visualize $srcpath -o $destpath
           done
         done
