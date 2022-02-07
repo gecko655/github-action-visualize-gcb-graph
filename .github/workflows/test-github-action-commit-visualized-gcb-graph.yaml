@@ -1,5 +1,8 @@
 name: Visualize cloudbuild job graph and commit
-on: push
+on:
+  push:
+    paths: 'sample/**'
+
 
 env:
   SEARCH_DIRECTORIES: sample
