@@ -1,4 +1,4 @@
-# github-action-commit-visualized-gcb-graph
+# github-action-visualize-gcb-graph
 
 A github action that creates image files of a graph of cloudbuild.yaml jobs with https://github.com/RyanSiu1995/gcb-visualizer .
 
@@ -24,11 +24,11 @@ jobs:
         uses: actions/checkout@v2.4.0
 
       - name: Create png image for each cloudbuild.yaml
-        uses: gecko655/github-action-commit-visualized-gcb-graph@v0.0.1
+        uses: gecko655/github-action-visualize-gcb-graph@v0.0.3
         with:
           gcb-visualizer-version: v1.0.1
           search-directories: '${{ env.SEARCH_DIRECTORIES }}'
-          filename-regex: '${{ env.FILENAME_FIND_PATTERN }}'
+          filename-find-pattern: '${{ env.FILENAME_FIND_PATTERN }}'
           output-directory-relative-path: images
           output-filetype: png
 
@@ -43,6 +43,6 @@ jobs:
 
 ## Demo action and commit
 
-https://github.com/gecko655/github-action-commit-visualized-gcb-graph/runs/5087550688?check_suite_focus=true
+https://github.com/gecko655/github-action-visualize-gcb-graph/runs/5087550688?check_suite_focus=true
 
-https://github.com/gecko655/github-action-commit-visualized-gcb-graph/commit/5cf81104e3ebb34920fd803671934fba142bcd46
+https://github.com/gecko655/github-action-visualize-gcb-graph/commit/5cf81104e3ebb34920fd803671934fba142bcd46
