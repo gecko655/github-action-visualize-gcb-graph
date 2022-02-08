@@ -1,5 +1,5 @@
-name: Commit visualized google cloud build graph
-description: Create a graph of google cloud build steps by gcb-visualizer and commit to its repository
+name: Visualize google cloud build graph
+description: Create a graph of google cloud build steps by gcb-visualizer
 inputs:
   gcb-visualizer-version:
     description: 'The version of https://github.com/RyanSiu1995/gcb-visualizer, starts with "v"'
