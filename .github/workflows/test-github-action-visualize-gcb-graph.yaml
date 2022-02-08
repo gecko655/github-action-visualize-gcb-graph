@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v2.4.0
 
       - name: Create png image for each cloudbuild.yaml
-        uses: gecko655/github-action-visualize-gcb-graph@v0.0.2
+        uses: gecko655/github-action-visualize-gcb-graph@v0.0.3
         with:
           search-directories: '${{ env.SEARCH_DIRECTORIES }}'
           filename-find-pattern: '${{ env.FILENAME_FIND_PATTERN }}'
