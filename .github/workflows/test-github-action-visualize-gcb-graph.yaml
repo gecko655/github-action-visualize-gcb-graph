@@ -20,7 +20,7 @@ jobs:
         uses: gecko655/github-action-visualize-gcb-graph@v0.0.2
         with:
           search-directories: '${{ env.SEARCH_DIRECTORIES }}'
-          filename-regex: '${{ env.FILENAME_FIND_PATTERN }}'
+          filename-find-pattern: '${{ env.FILENAME_FIND_PATTERN }}'
 
       - name: commit and push
         uses: EndBug/add-and-commit@v7.4.0
