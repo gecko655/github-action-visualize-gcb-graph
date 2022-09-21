@@ -7,13 +7,9 @@ or store as build artifacts via https://github.com/actions/upload-artifact .
 
 ## Sample usage
 
-```.github/workflows/commit-visualized-gcb-graph.yaml
+```yaml
 name: Visualize cloudbuild job graph and commit
 on: push
-
-env:
-  SEARCH_DIRECTORIES: sample
-  FILENAME_FIND_PATTERN: 'cloudbuild.*.yaml'
 
 jobs:
   format:
@@ -27,8 +23,8 @@ jobs:
         uses: gecko655/github-action-visualize-gcb-graph@v0.0.3
         with:
           gcb-visualizer-version: v1.0.1
-          search-directories: '${{ env.SEARCH_DIRECTORIES }}'
-          filename-find-pattern: '${{ env.FILENAME_FIND_PATTERN }}'
+          search-directories: 'sample'
+          filename-find-pattern: 'cloudbuild.*.yaml'
           output-directory-relative-path: images
           output-filetype: png
 
